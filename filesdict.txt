@@ -1,0 +1,13 @@
+#############################################################################################
+#				Files DIctionary
+############################################################################################
+
+The present file is intended to keep record of the end goal of each script.
+The file has to be updated everytime a script is createddegree_vs_parameter.png
+
+filesdict.txt			---------->Dictionary
+jochmansdata.R			----------> Replication of DGP in Jochmans 2017
+netfunc.R			----------> Simulates data of multilayer network using binary outcome and explores parameter 
+netfuncfixpar.R			-----------> Simulates data of multilayer network using binary outcome and explores parameter  
+sim1.R				-----------> Simulates data of multilayer network using binary outcome (first script)
+

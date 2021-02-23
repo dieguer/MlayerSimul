@@ -1,0 +1,19 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is the process to create a simulation of a multilayer network. We assume that each connection is modeled as:
+
+$$Y_{ (i;l) (j;k)}=\varphi\left(R_{(i;l) (j;k)} ; \theta_{0}\right) U_{(i;l) (j;k)}$$ 
+
+Where 
+
+```{r}
+
+library(purrr)
+library(gtools)
+library('igraph')
+```
+
+
