@@ -11,3 +11,4 @@ netfunc.R			----------> Simulates data of multilayer network using binary outcom
 netfuncfixpar.R			-----------> Simulates data of multilayer network using binary outcome and explores parameter  
 sim1.R				-----------> Simulates data of multilayer network using binary outcome (first script)
 
+DGPs.R --------> Data generating process function. Use in montecarlo
