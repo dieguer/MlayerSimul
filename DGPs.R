@@ -190,7 +190,7 @@ y=lapply(varphi, function(VRPHI){
 })
 
 
-return(y)
+return(list(y,x1,x2))
 
 
 }

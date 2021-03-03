@@ -7,9 +7,10 @@ psi <- c(-1,1)
 n <- 100
 rho <- 0.25
 mu <- c(0,0)
-model <- "Mixture"
+model <- "Poisson"
 parameter=10
 
+set.seed(300)
 # Generate correlated fixed effects with mean zero and covar matrix omega
 omega <- matrix(c(1,rho,rho,1), ncol=2)
 
