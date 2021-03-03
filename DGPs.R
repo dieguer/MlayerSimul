@@ -13,16 +13,18 @@ library(reshape2)
 library(MASS)
 
 
-tet=c(-1,1)
 
-for (v in 1:5){
-  tet=rbind(tet,c(-1,1))
-}
 
-netgen=function(n=100,m=3,blim=2,seed=300,thetas=tet, model='Poisson',rho=0.25,mu = c(0,0), parameter=10){
+netgen=function(n=100,m=3,blim=2,seed=300, model='Poisson',rho=0.25,mu = c(0,0), parameter=10){
 #number of nodes
-
-set.seed(seed)
+  thetas=c(-1,1)
+  
+  for (v in 1:5){
+    thetas=rbind(thetas,c(-1,1))
+  }
+  
+  
+#set.seed(seed)
 n <- n
 
 #Simulating individual fixed effects
@@ -94,7 +96,7 @@ lnum <-  perm(m,2)
  
 
 # layer fixed effect vector
-c <- exp(runif(m,0,2))
+c <- exp(runif(m,0,1.5))
 
 # layer fixed effect combinations 
 lfex=combinations(m,2,c,repeats.allowed=T)
