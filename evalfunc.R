@@ -1,4 +1,4 @@
-source("DGPs.R")
+# requires source("DGPs.R")
 
 
 
@@ -91,71 +91,3 @@ return(criterion)
 }
 
 
-
-
-
-simnum=1000
-
-
-resvec=matrix(nrow =simnum, ncol = 2)
-set.seed(200)
-
-
-for(l in 1:simnum){
-Mat <-  netgen()
-resvec[l,]= optim(c(-1,1 ),crito, hessian = T)$par
-}
-
-
-
-qqnorm((resvec[,2]-mean(resvec[,2]))/sd(resvec[,2]))
-qqline((resvec[,2]-mean(resvec[,2]))/sd(resvec[,2]))
-
-
-qqnorm((resvec[,1]-mean(resvec[,1]))/sd(resvec[,1]))
-qqline((resvec[,1]-mean(resvec[,1]))/sd(resvec[,1]))
-
-
-
-resvec2=matrix(nrow =simnum, ncol = 2)
-set.seed(200)
-
-
-for(l in 1:simnum){
-  Mat <-  netgen(n=500)
-  resvec[l,]= optim(c(-1,1 ),crito, hessian = T)$par
-}
-
-
-
-qqnorm((resvec[,2]-mean(resvec[,2]))/sd(resvec[,2]))
-qqline((resvec[,2]-mean(resvec[,2]))/sd(resvec[,2]))
-text(x = 2.5,y=-3,"1000 sim, n=500")
-
-
-qqnorm((resvec[,1]-mean(resvec[,1]))/sd(resvec[,1]))
-qqline((resvec[,1]-mean(resvec[,1]))/sd(resvec[,1]))
-text(x = 2.5,y=-3,"1000 sim, n=500")
-
-hist(resvec[,2], # histogram
-     col="peachpuff", # column color
-     border="black",
-     prob = TRUE, # show densities instead of frequencies
-     xlab = "temp",
-     main = "Beaver #1",breaks = 50)
-lines(density(resvec[,2]), # density plot
-      lwd = 2, # thickness of line
-      col = "chocolate3")
-
-
-
-
-hist(resvec[,1], # histogram
-     col="peachpuff", # column color
-     border="black",
-     prob = TRUE, # show densities instead of frequencies
-     xlab = "temp",
-     main = "Beaver #1",breaks = 50)
-lines(density(resvec[,1]), # density plot
-      lwd = 2, # thickness of line
-      col = "chocolate3")

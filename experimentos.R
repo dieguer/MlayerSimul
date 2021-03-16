@@ -1,7 +1,4 @@
-source("DGPs.R")
-
-Mat <-  netgen()
-
+#Print summations terms
 
 n=dim(Mat[[2]])[1]
 

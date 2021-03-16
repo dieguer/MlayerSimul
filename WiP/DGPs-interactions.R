@@ -101,6 +101,65 @@ lfex=combinations(m,2,c,repeats.allowed=T)
 # layer fixed effect combinations product
 lfex_p <- lfex[,1]*lfex[,2]
 
+
+############################################
+#  layer dummies
+###########################################
+
+Dmat=lapply(c(1:lnum),function(y){
+
+lapply(c(1:lnum), function(x){
+  
+  if(x==y){
+    matrix(1,ncol = n,nrow=n)
+  } else{
+    matrix(0,ncol = n,nrow=n)
+  }
+  
+  
+})})
+
+############################################
+#  interactions
+###########################################
+
+c=0
+I1=lapply(Dmat,function(y){
+  c=c+1
+  cc=0
+  lapply(y, function(x){
+  cc=1+cc  
+  
+  
+  if(c==cc){
+    x*x1
+  } else{
+    x
+  }
+  
+  })
+  
+})
+
+c=0
+I2=lapply(Dmat,function(y){
+  c=c+1
+  cc=0
+  lapply(y, function(x){
+    cc=1+cc  
+    
+    
+    if(c==cc){
+      x*x2
+    } else{
+      x
+    }
+    
+  })
+  
+})
+
+
 ###########################################
 ## define parameters
 ###########################################
@@ -153,14 +212,6 @@ y=lapply(varphi, function(VRPHI){
     }
   }
   
-  if(model=='binom'){
-    for (i in 1:n){
-      for (j in 1:n){
-        Y[i,j]= rbinom(1,1,1/(1+VRPHI[i,j]))
-      }
-    }
-  }
-  
   if(model=='Lnormal'){
     for (i in 1:n){
       for (j in 1:n){
@@ -173,7 +224,7 @@ y=lapply(varphi, function(VRPHI){
         e = mu+sqrt(sigma2)*rnorm(1); 
         epsilon = exp(e);
         Y[i,j]= VRPHI[i,j]*epsilon
-        #Y[i,j]= round(Y[i,j])
+        Y[i,j]= round(Y[i,j])
       }
     }
   }
