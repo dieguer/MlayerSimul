@@ -15,7 +15,8 @@ library(MASS)
 
 
 
-netgen=function(n=100,m=3,blim=2,seed=300,thetas, model='Poisson',rho=0.25,mu = c(0,0), parameter=10){
+netgen=function(n = 100, m = 3, blim = 2, seed = 300, thetas, 
+model = 'Poisson', rho=0.25,mu = c(0,0), parameter=10){
 #number of nodes
 
   

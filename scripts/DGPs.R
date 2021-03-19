@@ -4,13 +4,6 @@
 ##############################################
 
 
-library(purrr)
-library(gtools)
-library('igraph')
-library(gridExtra)
-library(tidyverse)
-library(reshape2)
-library(MASS)
 
 
 
