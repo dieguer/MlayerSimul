@@ -10,17 +10,19 @@
 
 
 
-
 crito <- function(parmo, simat) {
+  numl <- length(simat[[1]])
+
   thetas <- numeric(0)
-  for (v in 1:6) {
+
+
+  for (v in 1:numl) {
     thetas <- rbind(thetas, parmo)
   }
 
   #
-  
   thetas <- t(thetas)
-  index <- lapply(c(1:6), function(x) {
+  index <- lapply(c(1:numl), function(x) {
     exp(simat[[2]] * thetas[1, x] + simat[[3]] * thetas[2, x])
   })
 
@@ -30,9 +32,9 @@ crito <- function(parmo, simat) {
     y / x
   })
 
-  d_u <- lapply(u, function(x) {
-  list(x * simat[[2]], x * simat[[3]])
-  })
+  # d_u <- lapply(u, function(x) {
+  # list(x * simat[[2]], x * simat[[3]])
+  # })
 
 
   uidot <- lapply(u, function(x) {
@@ -68,7 +70,7 @@ crito <- function(parmo, simat) {
 
 
 
-  slist <- lapply(c(1:6), function(x) {
+  slist <- lapply(c(1:numl), function(x) {
     c(sum(simat[[2]] * u[[x]] * udotdot[[x]]) -
       sum((uidot[[x]] %*% t(udotj[[x]])) * simat[[2]]),
       sum(simat[[3]] * u[[x]] * udotdot[[x]]) -

@@ -80,8 +80,6 @@ perm <- function(n, r){
 # number of layers
 m <- m
 
-#number of inter and intra layers
-lnum <-  perm(m,2)
  
 
 # layer fixed effect vector
@@ -94,16 +92,19 @@ lfex=combinations(m,2,c,repeats.allowed=T)
 # layer fixed effect combinations product
 lfex_p <- lfex[,1]*lfex[,2]
 
+#number of inter and intra layers
+lnum <-  dim(lfex)[1]
+
 ###########################################
 ## define parameters
 ###########################################
 
 thetas <- thetas
 
-parname <- c('b11','b12','b13','b22','b23','b33')
+# parname <- c('b11','b12','b13','b22','b23','b33')
 
-# par name
-names(thetas) <- parname
+# # par name
+# names(thetas) <- parname
 
 
 #simulate the connection level noise
@@ -116,7 +117,7 @@ names(thetas) <- parname
 
 #create conditional moment
 
-varphi=lapply(c(1:6), function(X){
+varphi=lapply(c(1:lnum), function(X){
   exp(x1*thetas[X,1]+x2*thetas[X,2])*(alpha %*% t(rep(1,n)))*(rep(1,n) %*% t(gamma))*lfex_p[X]
 })
 

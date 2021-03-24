@@ -18,15 +18,16 @@ source("./scripts/simulafunc.R")
 ############################################
 
 #initial values
+m  <- 4
 
-thetas  <-  c(-1, 1)
+lay <- dim(combinations(m,2, repeats.allowed=T))[1]
+thetas  <-  numeric(0)
 
-for (v in 1:11){
+for (v in 1:lay){
   thetas <- rbind(thetas, c(-1, 1))
 }
 
 sizes <- c(25, 50, 100, 200, 400, 800)
-
 
 dir <- getwd()
 ################################################
@@ -34,76 +35,74 @@ dir <- getwd()
 ###############################################
 
 nb1 <- lapply(sizes, function(x) {
-  res <- simula(n = x, modelo = "Negbin2",
-          parameter = 1,  sim = 1000, cores = 16,semilla = 201)
+  res <- simula(n = x, m = m, modelo = "Negbin2",
+          parameter = 1,  sim = 1000, cores = 16, semilla = 201)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb1)))
-  write.csv(dato,paste0(dir, "/simoutput/data/nb1.csv"))
+  write.csv(dato,paste0(dir, "/simoutput/data/nb1_", m, ".csv"))
 
 nb5 <- lapply(sizes, function(x) {
-  res <- simula(n = x, modelo = "Negbin2",
+  res <- simula(n = x, m = m, modelo = "Negbin2",
           parameter = 5,  sim = 1000, cores = 16,semilla = 301)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb5)))
-  write.csv(dato,paste0(dir, "/simoutput/data/nb5.csv"))
+  write.csv(dato,paste0(dir, "/simoutput/data/nb5_", m, ".csv"))
 
 nb10 <- lapply(sizes, function(x) {
-  res <- simula(n = x, modelo = "Negbin2",
+  res <- simula(n = x, modelo = "Negbin2", m = m,
           parameter = 10,  sim = 1000, cores = 16,semilla = 4021)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
-  write.csv(dato,paste0(dir, "/simoutput/data/nb10.csv"))
+  write.csv(dato,paste0(dir, "/simoutput/data/nb10_", m, ".csv"))
 ################################################
 #  Poisson
 ###############################################
 
 poism <- lapply(sizes, function(x) {
-  res <- simula(n = x, modelo = "Poisson",
-          parameter = 1,  sim = 1000, cores = 16,semilla = 6208)
+  res <- simula(n = x,m = m, modelo = "Poisson",
+          parameter = 1,  sim = 1000, cores = 16, semilla = 6208)
   return(Reduce(rbind, res))})
  
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
-  write.csv(dato,paste0(dir, "/simoutput/data/poisson.csv"))
+  write.csv(dato,paste0(dir, "/simoutput/data/poisson_", m, ".csv"))
 
 ################################################
 #  Lognormal
 ###############################################
 
 lnorm1 <- lapply(sizes, function(x) {
-  res <- simula(n = x, modelo = "Lnormal",
-          parameter = 1,  sim = 1000, cores = 16,semilla = 208)
+  res <- simula(n = x, m = m, modelo = "Lnormal",
+          parameter = 1,  sim = 1000, cores = 16, semilla = 208)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
-  write.csv(dato,paste0(dir, "/simoutput/data/logn1.csv"))
+  write.csv(dato,paste0(dir, "/simoutput/data/logn1_", m, ".csv"))
 
 
 lnorm2 <- lapply(sizes, function(x) {
-  res <- simula(n = x, modelo = "Lnormal",
+  res <- simula(n = x, m = m, modelo = "Lnormal",
           parameter = 2,  sim = 1000, cores = 16,semilla = 2508)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
-  write.csv(dato,paste0(dir, "/simoutput/data/logn2.csv"))
+  write.csv(dato,paste0(dir, "/simoutput/data/logn2_", m, ".csv"))
 
 lnorm3 <- lapply(sizes, function(x) {
-  res <- simula(n = x, modelo = "Lnormal",
+  res <- simula(n = x, m = m, modelo = "Lnormal",
           parameter = 3,  sim = 1000, cores = 16,semilla = 2048)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
-  write.csv(dato,paste0(dir, "/simoutput/data/logn3.csv"))
+  write.csv(dato,paste0(dir, "/simoutput/data/logn3_", m, ".csv"))
 
 
 lnorm4 <- lapply(sizes, function(x) {
-  res <- simula(n = x, modelo = "Lnormal",
+  res <- simula(n = x, m = m, modelo = "Lnormal",
           parameter = 4,  sim = 1000, cores = 16,semilla = 2708)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
-  write.csv(dato,paste0(dir, "/simoutput/data/logn4.csv"))
-
-
+  write.csv(dato,paste0(dir, "/simoutput/data/logn4_", m, ".csv"))
