@@ -2,8 +2,26 @@
 # make plots
 #########################################################################
 library(tidyverse)
+library(ggthemes)
 dir <- getwd()
+m <- 3
+sez=1
+alfa <- 1
+colo <- 'red'
 files <- list.files(path = paste0(dir, "/simoutput/data"))
+
+if (m==4 ) {
+files <- files[grepl("_4.csv",files)]
+
+} else {
+outdir  <- "/simoutput/plots/3layer/"
+ files <- files[!grepl("_4.csv",files)]     
+}
+
+
+source("./scripts/qqthin2.R")
+source("./scripts/plotwork.R")
+
 substrRight <- function(x, n) {
   substr(x, 1, nchar(x) - 4)
 }
@@ -24,20 +42,20 @@ lapply(files,function(x) {
 file <- x
 dato <- read.csv(paste0(dir, "/simoutput/data/", file))
 
- p1  <- ggplot(dato, aes(x = factor(V3), V1)) + geom_boxplot() +
+ p1  <- ggplot(dato, aes(x = factor(V3), V1)) + geom_boxplot(outlier.shape=NA) +
         geom_hline(yintercept = -1, color = "red") +
-        xlab("n") + ylab("B1 (continuos)")
+        xlab("n") + ylab("B1 (continuos)") + theme_bw()
 
- p2  <- ggplot(dato, aes(x = factor(V3),V2 )) + geom_boxplot() +
-  xlab("n") + ylab("B2 (binary)") + geom_hline(yintercept = 1, color = "red")
+ p2  <- ggplot(dato, aes(x = factor(V3),V2 )) + geom_boxplot(outlier.shape=NA) +
+  xlab("n") + ylab("B2 (binary)") + geom_hline(yintercept = 1, color = "red") + theme_bw()
 
 
 filo <- substrRight(file, 4)
 
-ggsave(filename = paste0(dir, "/simoutput/plots/", filo, "_box_cont.png"),
+ggsave(filename = paste0(dir, outdir,"box/", filo, "_box_cont.png"),
      plot = p1)
 
-ggsave(filename = paste0(dir, "/simoutput/plots/", filo, "_box_bi.png"),
+ggsave(filename = paste0(dir, outdir,"box/", filo, "_box_bi.png"),
       plot = p2)
 
 
@@ -46,31 +64,6 @@ dato <- dato %>% group_by(V3) %>%
                             V5 = ((V2 - mean(V2)) / sd(V2))) %>%
                 ungroup()
 
-
-
-
-lim <- c(min(dato$V4), max(dato$V4))
-lim2 <- c(min(dato$V5), max(dato$V5))
-
-p3 <- ggplot(dato, aes(sample = V4)) + stat_qq(shape=1) + stat_qq_line(fullrange = T) +
-geom_abline( intercept = 0, slope = 1, color = "blue",linetype = "longdash") +
-coord_fixed(ratio = 1, xlim=lim, ylim = lim) +
-    facet_wrap(facets = vars(V3),nrow=2) 
-
-
-p4 <- ggplot(dato, aes(sample=V5))+stat_qq( shape=1)+stat_qq_line(fullrange = T) +
-    geom_abline( intercept=0, slope=1,color = "blue",linetype = "longdash")+
-    coord_fixed(ratio = 1, xlim=lim2, ylim = lim2)+
-     facet_wrap(facets = vars(V3),nrow=2) 
-
-
-ggsave(filename = paste0(dir, "/simoutput/plots/", filo, "_qq_cont.png"),
-      plot = p3)
-
-ggsave(filename = paste0(dir, "/simoutput/plots/", filo, "_qq_bi.png"),
-      plot = p4)
-
-
 ############# INTERQUANTILE RANGE CENSORING X cont###################
  s1  <-  dato %>% select(V1,V3) %>%
            group_by(V3) %>%
@@ -78,13 +71,10 @@ ggsave(filename = paste0(dir, "/simoutput/plots/", filo, "_qq_bi.png"),
            mutate(V4 = ((V1 - mean(V1)) / sd(V1))) %>%
            ungroup()
 
-lim <- c(min(s1$V4), max(s1$V4))
 
-p6 <- ggplot(s1, aes(sample = V4)) + stat_qq(shape=1) + stat_qq_line(fullrange = T) +
-geom_abline( intercept = 0, slope = 1, color = "blue",linetype = "longdash") +
-coord_fixed(ratio = 1, xlim=lim, ylim = lim) +
-    facet_wrap(facets = vars(V3),nrow=2) 
+p3 <- ploto(s1 ,"V3", "V4")
 
+p5<- ploti(s1,"V3","V4", alfa=0.3)
 
 ############# INTERQUANTILE RANGE CENSORING X binary###################
 
@@ -94,19 +84,24 @@ coord_fixed(ratio = 1, xlim=lim, ylim = lim) +
            mutate(V4 = ((V2 - mean(V2)) / sd(V2))) %>%
            ungroup()
 
-lim <- c(min(s2$V4), max(s2$V4))
 
-p5 <- ggplot(s2, aes(sample = V4)) + stat_qq(shape=1) + stat_qq_line(fullrange = T) +
-geom_abline( intercept = 0, slope = 1, color = "blue",linetype = "longdash") +
-coord_fixed(ratio = 1, xlim=lim, ylim = lim) +
-    facet_wrap(facets = vars(V3),nrow=2) 
+p4 <- ploto(s2, "V3", "V4")
+p6 <- ploti(s2,"V3","V4", alfa=0.3)
 
+ggsave(filename = paste0(dir, outdir,"qqthin/", filo, "_qq_cont.png"),
+      plot = p3,   width =8,
+  height = 5, units="in")
 
-ggsave(filename = paste0(dir, "/simoutput/plots/", filo, "_qqc_cont.png"),
-      plot = p5)
+ggsave(filename = paste0(dir, outdir,"qqcens/", filo, "_qqc_cont.png"),
+      plot = p5,   width =8,
+  height = 5, units="in")
 
-ggsave(filename = paste0(dir, "/simoutput/plots/", filo, "_qqc_bi.png"),
-      plot = p6)
+ggsave(filename = paste0(dir, outdir,"qqcens/", filo, "_qqc_bi.png"),
+      plot = p6,   width =8,
+  height = 5, units="in")
+ggsave(filename = paste0(dir, outdir,"qqthin/", filo, "_qq_bi.png"),
+      plot = p4,   width =8,
+  height = 5, units="in")
 
 
 return(TRUE)
