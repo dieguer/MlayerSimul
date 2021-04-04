@@ -83,17 +83,14 @@ m <- m
  
 
 # layer fixed effect vector
-c <- exp(runif(m,0,1.5))
+
 
 # layer fixed effect combinations 
-lfex=combinations(m,2,c,repeats.allowed=T)
+lfex=combinations(m,2,1:m,repeats.allowed=T)
 
-
-# layer fixed effect combinations product
-lfex_p <- lfex[,1]*lfex[,2]
-
-#number of inter and intra layers
 lnum <-  dim(lfex)[1]
+
+lfex_p <- exp(rnorm(lnum))
 
 ###########################################
 ## define parameters

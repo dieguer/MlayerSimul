@@ -9,8 +9,9 @@ library(MASS)
 
 
 source("./scripts/DGPs.R")
-source("./scripts/evalfunc.R")
+source("./scripts/evalfunc_i2.R")
 source("./scripts/simulafunc.R")
+source("./scripts/structo1.R")
 
 #Experiments
 
@@ -18,7 +19,7 @@ source("./scripts/simulafunc.R")
 ############################################
 
 #initial values
-m  <- 4
+m  <- 3
 
 lay <- dim(combinations(m,2, repeats.allowed=T))[1]
 thetas  <-  numeric(0)
@@ -26,6 +27,8 @@ thetas  <-  numeric(0)
 for (v in 1:lay){
   thetas <- rbind(thetas, c(-1, 1))
 }
+
+g <- structo1(m)
 
 sizes <- c(25, 50, 100, 200, 400, 800)
 
@@ -36,7 +39,8 @@ dir <- getwd()
 
 nb1 <- lapply(sizes, function(x) {
   res <- simula(n = x, m = m, modelo = "Negbin2",
-          parameter = 1,  sim = 1000, cores = 16, semilla = 201)
+          parameter = 1,  sim = 1000, 
+          cores = 16, semilla = 201,  strobj = g)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb1)))
@@ -44,7 +48,8 @@ nb1 <- lapply(sizes, function(x) {
 
 nb5 <- lapply(sizes, function(x) {
   res <- simula(n = x, m = m, modelo = "Negbin2",
-          parameter = 5,  sim = 1000, cores = 16,semilla = 301)
+          parameter = 5,  sim = 1000, cores = 16,
+          semilla = 301, strobj = g)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb5)))
@@ -52,7 +57,8 @@ nb5 <- lapply(sizes, function(x) {
 
 nb10 <- lapply(sizes, function(x) {
   res <- simula(n = x, modelo = "Negbin2", m = m,
-          parameter = 10,  sim = 1000, cores = 16,semilla = 4021)
+          parameter = 10,  sim = 1000, cores = 16,
+          semilla = 4021, strobj = g)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
@@ -63,7 +69,8 @@ nb10 <- lapply(sizes, function(x) {
 
 poism <- lapply(sizes, function(x) {
   res <- simula(n = x,m = m, modelo = "Poisson",
-          parameter = 1,  sim = 1000, cores = 16, semilla = 6208)
+          parameter = 1,  sim = 1000, cores = 16, 
+          semilla = 6208,  strobj = g)
   return(Reduce(rbind, res))})
  
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
@@ -75,7 +82,8 @@ poism <- lapply(sizes, function(x) {
 
 lnorm1 <- lapply(sizes, function(x) {
   res <- simula(n = x, m = m, modelo = "Lnormal",
-          parameter = 1,  sim = 1000, cores = 16, semilla = 208)
+          parameter = 1,  sim = 1000, cores = 16, 
+          semilla = 208,  strobj = g)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
@@ -84,7 +92,8 @@ lnorm1 <- lapply(sizes, function(x) {
 
 lnorm2 <- lapply(sizes, function(x) {
   res <- simula(n = x, m = m, modelo = "Lnormal",
-          parameter = 2,  sim = 1000, cores = 16,semilla = 2508)
+          parameter = 2,  sim = 1000, cores = 16,
+          semilla = 2508, strobj = g)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
@@ -92,7 +101,8 @@ lnorm2 <- lapply(sizes, function(x) {
 
 lnorm3 <- lapply(sizes, function(x) {
   res <- simula(n = x, m = m, modelo = "Lnormal",
-          parameter = 3,  sim = 1000, cores = 16,semilla = 2048)
+          parameter = 3,  sim = 1000, cores = 16,
+          semilla = 2048, strobj = g)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
@@ -101,7 +111,8 @@ lnorm3 <- lapply(sizes, function(x) {
 
 lnorm4 <- lapply(sizes, function(x) {
   res <- simula(n = x, m = m, modelo = "Lnormal",
-          parameter = 4,  sim = 1000, cores = 16,semilla = 2708)
+          parameter = 4,  sim = 1000, cores = 16,
+          semilla = 2708,  strobj = g)
   return(Reduce(rbind, res))})
 
   dato <- as.data.frame(unname(Reduce(rbind, nb10)))
