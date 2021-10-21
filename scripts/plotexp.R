@@ -4,19 +4,16 @@
 library(tidyverse)
 library(ggthemes)
 dir <- getwd()
-m <- 3
+m <- 4
 sez=1
 alfa <- 1
 colo <- 'red'
 files <- list.files(path = paste0(dir, "/simoutput/data"))
 
-if (m==4 ) {
-files <- files[grepl("_4.csv",files)]
-
-} else {
-outdir  <- "/simoutput/plots/3layer/"
- files <- files[!grepl("_4.csv",files)]     
-}
+mdir <- paste0("_",m,".csv")
+files <- files[grepl(mdir,files)]
+outdir  <- paste0("/simoutput/plots/",m,"layer/")
+ 
 
 
 source("./scripts/qqthin2.R")
@@ -65,7 +62,7 @@ dato <- dato %>% group_by(V3) %>%
                 ungroup()
 
 ############# INTERQUANTILE RANGE CENSORING X cont###################
- s1  <-  dato %>% select(V1,V3) %>%
+ s1  <-  dato %>% dplyr::select(V1,V3) %>%
            group_by(V3) %>%
            filter( V1 > lb(V1, 1.5),  V1 < ub(V1, 1.5)) %>%
            mutate(V4 = ((V1 - mean(V1)) / sd(V1))) %>%
