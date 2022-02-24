@@ -1,3 +1,6 @@
+
+#######   Evaluation function to minimize with data
+
 # require(parallel)
 # library(purrr)
 # library(gtools)

@@ -1,3 +1,6 @@
+
+#######   GRadient function
+
 # require(parallel)
 # library(purrr)
 # library(gtools)
