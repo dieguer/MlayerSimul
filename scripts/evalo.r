@@ -161,7 +161,7 @@ slist <- lapply(strobject, function(x) {
 #     sparseMatrix(
 #      i = wdata$RowID[-selo],
 #      j = wdata$ColID[-selo],
-#      x = x[-selo],,dims=c(247,247))
+#      x = x[-selo],dims=c(247,247))
 # })
     
 # str(lvar)
